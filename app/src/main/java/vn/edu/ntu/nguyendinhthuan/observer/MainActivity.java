@@ -10,10 +10,11 @@ import android.widget.ImageView;
 import java.util.Calendar;
 
 import vn.edu.ntu.nguyendinhthuan.util.MyDateDialog;
+import vn.edu.ntu.nguyendinhthuan.util.MyTimeDialog;
 
-public class MainActivity extends AppCompatActivity implements MyDateDialog.OnMyDateChangeListener {
-    EditText dateCongTac;
-    ImageView imvCongtac;
+public class MainActivity extends AppCompatActivity implements MyDateDialog.OnMyDateChangeListener, MyTimeDialog.OnMyTimeChangeListener{
+    EditText dateCongTac, timeCongTac;
+    ImageView imvCongtac, imvTime;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,7 +25,10 @@ public class MainActivity extends AppCompatActivity implements MyDateDialog.OnMy
     private void addViews () {
         dateCongTac = findViewById(R.id.dateCongTac);
         dateCongTac.setEnabled(false);
-        imvCongtac = findViewById(R.id.imvCongtac);
+        imvCongtac = findViewById(R.id.date);
+        timeCongTac = findViewById(R.id.timeCongTac);
+        timeCongTac.setEnabled(false);
+        imvTime = findViewById(R.id.imvTime);
     }
     private void setViews () {
         imvCongtac.setOnClickListener(new View.OnClickListener() {
@@ -32,6 +36,13 @@ public class MainActivity extends AppCompatActivity implements MyDateDialog.OnMy
             public void onClick(View view) {
                 MyDateDialog myDateDialog = new MyDateDialog(MainActivity.this, Calendar.getInstance(), MainActivity.this);
                 myDateDialog.showDateDialog();
+            }
+        });
+        imvTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view2) {
+                MyTimeDialog myTimeDialog = new MyTimeDialog(MainActivity.this, Calendar.getInstance(), MainActivity.this);
+                myTimeDialog.showTimeDialog();
             }
         });
     }
@@ -45,5 +56,14 @@ public class MainActivity extends AppCompatActivity implements MyDateDialog.OnMy
                 .append("/")
                 .append(newDate.get(newDate.YEAR));
         dateCongTac.setText(stringBuilder.toString());
+    }
+    public void timeUpdate(Calendar newTime)
+    {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(newTime.get(newTime.HOUR_OF_DAY))
+                .append("h")
+                .append(newTime.get(newTime.MINUTE))
+                .append("p");
+        timeCongTac.setText(stringBuilder.toString());
     }
 }
